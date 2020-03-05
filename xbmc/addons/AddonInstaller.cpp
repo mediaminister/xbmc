@@ -311,13 +311,14 @@ bool CAddonInstaller::CheckDependencies(const AddonPtr &addon,
     const std::string &addonID = it.id;
     const AddonVersion& versionMin = it.versionMin;
     const AddonVersion& version = it.version;
+    const AddonVersion& versionMax = it.versionMax;
     bool optional = it.optional;
     AddonPtr dep;
     bool haveAddon = CServiceBroker::GetAddonMgr().GetAddon(addonID, dep, ADDON_UNKNOWN, false);
-    if ((haveAddon && !dep->MeetsVersion(versionMin, version)) || (!haveAddon && !optional))
+    if ((haveAddon && !dep->MeetsVersion(versionMin, version, versionMax)) || (!haveAddon && !optional))
     {
       // we have it but our version isn't good enough, or we don't have it and we need it
-      if (!database.GetAddon(addonID, dep) || !dep->MeetsVersion(versionMin, version))
+      if (!database.GetAddon(addonID, dep) || !dep->MeetsVersion(versionMin, version, versionMax))
       {
         // we don't have it in a repo, or we have it but the version isn't good enough, so dep isn't satisfied.
         CLog::Log(LOGDEBUG, "CAddonInstallJob[%s]: requires %s version %s which is not available", addon->ID().c_str(), addonID.c_str(), version.asString().c_str());
@@ -735,10 +736,11 @@ bool CAddonInstallJob::Install(const std::string &installFrom, const RepositoryP
       const std::string &addonID = it->id;
       const AddonVersion& versionMin = it->versionMin;
       const AddonVersion& version = it->version;
+      const AddonVersion& versionMax = it->versionMax;
       bool optional = it->optional;
       AddonPtr dependency;
       bool haveAddon = CServiceBroker::GetAddonMgr().GetAddon(addonID, dependency, ADDON_UNKNOWN, false);
-      if ((haveAddon && !dependency->MeetsVersion(versionMin, version)) ||
+      if ((haveAddon && !dependency->MeetsVersion(versionMin, version, versionMax)) ||
           (!haveAddon && !optional))
       {
         // we have it but our version isn't good enough, or we don't have it and we need it

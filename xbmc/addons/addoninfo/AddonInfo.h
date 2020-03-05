@@ -29,12 +29,13 @@ typedef std::vector<AddonInfoPtr> AddonInfos;
 struct DependencyInfo
 {
   std::string id;
-  AddonVersion versionMin, version;
+  AddonVersion versionMin, version, versionMax;
   bool optional;
-  DependencyInfo(std::string id, AddonVersion versionMin, AddonVersion version, bool optional)
+  DependencyInfo(std::string id, AddonVersion versionMin, AddonVersion version, AddonVersion versionMax, bool optional)
     : id(id)
     , versionMin(versionMin.empty() ? version : versionMin)
     , version(version)
+    , versionMax(versionMax)
     , optional(optional)
   {
   }
@@ -145,7 +146,7 @@ public:
   const std::string& Origin() const { return m_origin; }
   const InfoMap& ExtraInfo() const { return m_extrainfo; }
 
-  bool MeetsVersion(const AddonVersion& versionMin, const AddonVersion& version) const;
+  bool MeetsVersion(const AddonVersion& versionMin, const AddonVersion& version, const AddonVersion& versionMax) const;
   uint64_t PackageSize() const { return m_packageSize; }
   CDateTime InstallDate() const { return m_installDate; }
   CDateTime LastUpdated() const { return m_lastUpdated; }

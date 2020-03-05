@@ -24,6 +24,7 @@ const std::string addonXML = R"xml(
     <import addon="metadata.common.imdb.com" minversion="2.9.2" version="2.9.2"/>
     <import addon="metadata.common.themoviedb.org" minversion="3.1.0" version="3.1.0"/>
     <import addon="plugin.video.youtube" minversion="4.4.0" version="4.4.10" optional="true"/>
+    <import addon="xbmc.python" version="2.25.0" maxversion="3.0.0"/>
   </requires>
   <extension point="xbmc.metadata.scraper.movies"
              language="en"
@@ -118,6 +119,10 @@ TEST_F(TestAddonInfoBuilder, TestGenerate_Repo)
   EXPECT_EQ(dependencies[3].optional, true);
   EXPECT_EQ(dependencies[3].versionMin.asString(), "4.4.0");
   EXPECT_EQ(dependencies[3].version.asString(), "4.4.10");
+  EXPECT_EQ(dependencies[4].id, "xbmc.python");
+  EXPECT_EQ(dependencies[4].optional, false);
+  EXPECT_EQ(dependencies[4].version.asString(), "2.25.0");
+  EXPECT_EQ(dependencies[4].versionMax.asString(), "3.0.0");
 
   auto info = addon->ExtraInfo().find("language");
   ASSERT_NE(info, addon->ExtraInfo().end());

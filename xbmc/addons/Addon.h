@@ -220,9 +220,9 @@ public:
    \param version the version to meet.
    \return true if  min_version <= version <= current_version, false otherwise.
    */
-  bool MeetsVersion(const AddonVersion& versionMin, const AddonVersion& version) const override
+  bool MeetsVersion(const AddonVersion& versionMin, const AddonVersion& version, const AddonVersion& versionMax) const override
   {
-    return m_addonInfo->MeetsVersion(versionMin, version);
+    return m_addonInfo->MeetsVersion(versionMin, version, versionMax);
   }
   bool ReloadSettings() override;
 
